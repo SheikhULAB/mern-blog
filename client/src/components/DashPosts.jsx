@@ -14,7 +14,7 @@ export default function DashPosts() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
+        const res = await fetch(`/api/post/getposts?userId=${currentUser?._id}`);
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
@@ -53,7 +53,7 @@ export default function DashPosts() {
     setShowModal(false);
     try {
       const res = await fetch(
-        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        `/api/post/deletepost/${postIdToDelete}/${currentUser?._id}`,
         {
           method: 'DELETE',
         }
@@ -73,7 +73,7 @@ export default function DashPosts() {
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+      {currentUser?.isAdmin && userPosts.length > 0 ? (
         <>
           <Table hoverable className='shadow-md'>
             <Table.Head>
@@ -93,10 +93,10 @@ export default function DashPosts() {
                     {new Date(post.updatedAt).toLocaleDateString()}
                   </Table.Cell>
                   <Table.Cell>
-                    <Link to={`/post/${post.slug}`}>
+                    <Link to={`/post/${post?.slug}`}>
                       <img
-                        src={post.image}
-                        alt={post.title}
+                        src={post?.image}
+                        alt={post?.title}
                         className='w-20 h-10 object-cover bg-gray-500'
                       />
                     </Link>
@@ -104,17 +104,17 @@ export default function DashPosts() {
                   <Table.Cell>
                     <Link
                       className='font-medium text-gray-900 dark:text-white'
-                      to={`/post/${post.slug}`}
+                      to={`/post/${post?.slug}`}
                     >
-                      {post.title}
+                      {post?.title}
                     </Link>
                   </Table.Cell>
-                  <Table.Cell>{post.category}</Table.Cell>
+                  <Table.Cell>{post?.category}</Table.Cell>
                   <Table.Cell>
                     <span
                       onClick={() => {
                         setShowModal(true);
-                        setPostIdToDelete(post._id);
+                        setPostIdToDelete(post?._id);
                       }}
                       className='font-medium text-red-500 hover:underline cursor-pointer'
                     >
@@ -124,7 +124,7 @@ export default function DashPosts() {
                   <Table.Cell>
                     <Link
                       className='text-teal-500 hover:underline'
-                      to={`/update-post/${post._id}`}
+                      to={`/update-post/${post?._id}`}
                     >
                       <span>Edit</span>
                     </Link>
